@@ -25,46 +25,43 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+queue<int> v[200100];
 
 int main(){
 
 	fastio;
+	int n;
+	cin >> n;
 
-	ll n,m;
-
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	frr(i,n){
+		int x;
+		cin >> x;
+		v[x].push(i);
 	}
 
-//fr(i,m) dbg(B[i]);
+	vi ans;
+	ans.clear();
 
-	ll ans = 0ll;
-	ll pot = 1ll;
+	int at = 0;
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
+	while(at >= 0 && v[at].size() > 0){
+		ans.pb(v[at].front());
+		v[at].pop();
+		at++;
+		while(at >= 0 && (v[at].empty())) at-= 3;
 	}
 
-	cout << ans << endl;
+	if(ans.size() == n){
+		cout << "Possible" << endl;
+		fr(i,n) cout << ans[i] << ' ';
+		gnl; 
+	}
+
+	else{
+		cout << "Impossible" << endl;
+	}
 
 
 

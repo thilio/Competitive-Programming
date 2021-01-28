@@ -25,46 +25,59 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
 
 int main(){
 
 	fastio;
 
-	ll n,m;
+	int n,x;
+	cin >> n >> x;
 
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	ll v[100100];
+	ll mn = llINF;
+	int mni = -1;
+	frr(i,n){
+		cin >> v[i];
+		mn = min(mn,v[i]);
 	}
 
-//fr(i,m) dbg(B[i]);
+	if(v[x] == mn){
+		mni = x;
+	}
+	else{
+		int j = x-1;
+		if(j == 0) j = n;
 
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+		while(j != x){
+			if(v[j] == mn){
+				mni = j;
+				break;
+			}
+			j--;
+			if(j == 0) j = n;
 		}
-
-		pot*=2;
-		pot%= MOD;
 	}
 
-	cout << ans << endl;
+	ll sum = 0ll;
+	sum += mn*n;
+
+	frr(i,n) v[i] = v[i] - mn;
+
+	int j = x;
+	while(j != mni){
+		v[j]--;
+		sum++;
+
+		j--;
+		if(j == 0) j = n;
+	}
+
+	v[mni] = sum;
+
+	frr(i,n) cout << v[i] << ' ';
+
+	gnl;
 
 
 

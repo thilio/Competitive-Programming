@@ -25,47 +25,34 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+ll h,n;
+
+ll f(ll h,ll start,ll end,ll w){
+	if(start == end) return 0ll;
+
+	if(w == 0){
+		if(n <= (start + end)/2)
+			return 1 + f(h-1,start,(start+end)/2,1);
+		else
+			return (1ll << h) + f(h-1,((start + end)/2) + 1,end,0);
+	}
+	else{
+		if(n > (start + end)/2)
+			return 1 + f(h-1,((start + end)/2) + 1,end,0);
+		else
+			return (1ll << h) + f(h-1,start,(start+end)/2,1);
+	}
+
+}
 
 int main(){
 
 	fastio;
+	
+	cin >> h >> n;
 
-	ll n,m;
-
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
-	}
-
-//fr(i,m) dbg(B[i]);
-
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
-	}
-
-	cout << ans << endl;
-
-
+	cout << f(h,1ll,(1ll << h),0)<<endl;
 
 }

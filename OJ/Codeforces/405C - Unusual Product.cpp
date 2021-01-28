@@ -25,47 +25,54 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
 
 int main(){
 
 	fastio;
+	int n;
+	scanf("%d", &n);
 
-	ll n,m;
+	int mat[1010][1010];
 
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	fr(i,n){
+		fr(j,n){
+			scanf("%d", &mat[i][j]);
+		}
 	}
 
-//fr(i,m) dbg(B[i]);
+	int ans = mat[0][0];
 
-	ll ans = 0ll;
-	ll pot = 1ll;
+	for(int i = 1; i < n;i++){
+		ans = ans^mat[i][i];
+	}
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+	string s;
+
+	int q;
+	scanf("%d", &q);
+
+	int ct = 0;
+	fr(i,q){
+		int op;
+		scanf("%d", &op);
+		if(op == 3){
+			if(ans^(ct%2))
+				s.pb('1');
+			else 
+				s.pb('0');
+
+		}
+		else{
+			scanf("%d", &op);
+			ct++;
 		}
 
-		pot*=2;
-		pot%= MOD;
 	}
 
-	cout << ans << endl;
+	fr(i,s.size())
+		printf("%c",s[i]);
 
-
+	printf("\n");
 
 }

@@ -25,47 +25,61 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+vector<pair<int,pii>> p;
+vector<pair<int,pii>> q;
+int n,d;
 
 int main(){
 
 	fastio;
 
-	ll n,m;
-
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	cin >> n;
+	cin >> d;
+	fr(i,n){
+		int a,b,c;
+		cin >> a >> b >> c;
+		pii x;
+		x = mp(c,b - a + 1);
+		p.pb(mp(a,x));
+		q.pb(mp(b,x));
 	}
 
-//fr(i,m) dbg(B[i]);
+	sort(all(q));
+	sort(all(p));
 
-	ll ans = 0ll;
-	ll pot = 1ll;
+	int best[300300];
+	ms(best,2*INF);
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+
+
+
+	int k = 0;
+	int ans = 2*INF;
+	int j = 0;
+	while(k < n){
+		pair<int,pii> x = p[k];
+
+		while(j < n && q[j].fst < x.fst){
+			best[q[j].snd.snd] = min(best[q[j].snd.snd],q[j].snd.fst);
+			j++;
 		}
 
-		pot*=2;
-		pot%= MOD;
+		int dur = x.snd.snd;
+		if(d - dur < 0){
+			k++;
+			continue;
+		}
+		if(best[d-dur] != 2*INF){
+			ans = min(ans,x.snd.fst + best[d-dur]);
+		}
+
+		
+		k++;
+
 	}
 
+	if(ans == 2*INF) ans = -1;
 	cout << ans << endl;
-
-
 
 }

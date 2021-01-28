@@ -25,47 +25,43 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+int v[100100];
+map<int,int> m;
+int mx = 0;
 
 int main(){
 
 	fastio;
+	int n;
+	cin >> n;
 
-	ll n,m;
+	fr(i,n) cin >> v[i];
 
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
-	}
-
-//fr(i,m) dbg(B[i]);
-
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+	fr(i,(n+1)/2){
+		if(v[i] <= i) continue;
+		//olar;
+		m[v[0] + i - v[i]]++;
+		if(m[v[0] + i - v[i]] > mx){
+			mx = m[v[0] + i - v[i]];
 		}
 
-		pot*=2;
-		pot%= MOD;
 	}
 
-	cout << ans << endl;
+	for(int i = n -1; i >= (n+1)/2;i--){
 
+		int j = n -1 - i;
+
+		if(v[i] <= j) continue;
+
+		m[v[0] + j - v[i]]++;
+		if(m[v[0] + j - v[i]] > mx){
+			mx = m[v[0] + j - v[i]];
+		}
+	}
+
+	cout << n - mx << endl;
 
 
 }

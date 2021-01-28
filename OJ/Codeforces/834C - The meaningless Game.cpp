@@ -25,47 +25,57 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+ll pw(ll x){
+
+	double l = 0.0;
+	double r = x;
+	double m;
+	fr(i,100){
+		m = (l+r)/2;
+
+		if(m*m*m <= x) l = m;
+		else r = m;
+
+	}
+
+	return m;
+}
+
+ll sq(ll x){
+	ll p = floor(pw(x));
+	p--;
+
+	while(p*p*p < x) p++;
+
+	return p;
+}
 
 int main(){
 
 	fastio;
 
-	ll n,m;
+	int n;
+	cin >> n;
 
-	cin >> n >> m;
+	fr(i,n){
+		ll a;
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+		ll b;
 
-	ll A[200200],B[200100];
+		cin >> a >> b;
 
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
+		ll x = sq(a*b);
 
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+		bool ok = true;
+
+		if(x*x*x != a*b) ok = false;
+
+		if(a%x || b%x) ok = false;
+
+		if(ok) cout << "yes\n";
+		else cout << "no\n";
 	}
-
-//fr(i,m) dbg(B[i]);
-
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
-	}
-
-	cout << ans << endl;
-
-
 
 }

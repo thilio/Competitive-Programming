@@ -25,46 +25,59 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+int check[110];
+char mat[110][110];
+int n,m;
+
+bool row_good(int j){
+	fr(i,n-1){
+		if(mat[i][j] > mat[i+1][j] && check[i+1] == 0) return false;
+	}
+
+	return true;
+
+}
+
+void fix_row(int j){
+	fr(i,n-1){
+		if(mat[i][j] < mat[i+1][j]) check[i+1] = 1;
+	}
+}
 
 int main(){
 
 	fastio;
-
-	ll n,m;
-
+	
 	cin >> n >> m;
+	string s;
+	getline(cin,s);
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+	
 
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	fr(i,n){
+		getline(cin,s);
+		fr(j,m){
+			mat[i][j] = s[j];
+		}
 	}
 
-//fr(i,m) dbg(B[i]);
+	int p = 0;
 
-	ll ans = 0ll;
-	ll pot = 1ll;
+	fr(j,m){
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+		if(row_good(j)){
+			fix_row(j);
+
+		}
+		else{
+			p++;
 		}
 
-		pot*=2;
-		pot%= MOD;
 	}
 
-	cout << ans << endl;
+	cout << p << endl;
 
 
 

@@ -25,47 +25,57 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+int v[1001];
+
+int mn(int i,int j){
+	int ans = INF;
+	for(int k = i; k <= j; k++){
+		ans = min(ans,v[k]);
+	}
+
+	return ans;
+}
 
 int main(){
 
 	fastio;
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	int n;
+	cin >> n;
+	
 
-	ll n,m;
+	frr(i,n) cin >> v[i];
 
-	cin >> n >> m;
+	int r1,c1,r2,c2;
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+	cin >> r1 >> c1 >> r2 >> c2;
 
-	ll A[200200],B[200100];
+	int dist = INF;
 
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
+	frr(i,n){
+		int tent = abs(i - r1) + abs(i - r2);
 
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+		int col,col1,col2;
+
+		int aux = min(i,r1);
+		int mmn = min(aux,r2);
+		aux = max(i,r1);
+		int mmx = max(aux,r2);
+
+		col1 = mn(mmn,mmx) + 1;
+		col2 = c1;
+
+		col = min(col1,col2);
+
+		tent += abs(col - c2);
+
+		dist = min(dist,tent);
+
 	}
 
-//fr(i,m) dbg(B[i]);
-
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
-	}
-
-	cout << ans << endl;
-
-
+	cout << dist << endl;
 
 }

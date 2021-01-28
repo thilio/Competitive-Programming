@@ -25,47 +25,57 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+
+int v[300300];
+int tim[300300];
+vii event;
 
 int main(){
 
 	fastio;
 
-	ll n,m;
+	int n,q;
+	cin >> n >> q;
 
-	cin >> n >> m;
+	int ans = 0;
+	int last = 0;
+	event.pb(mp(-1,-1));
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+	ms(tim,-1);
 
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
-	}
-
-//fr(i,m) dbg(B[i]);
-
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+	fr(i,q){
+		int op,x;
+		cin >> op >> x;
+		if(op == 1){
+			v[x]++;
+			event.pb(mp(x,i));
+			ans++;
 		}
 
-		pot*=2;
-		pot%= MOD;
+		if(op == 2){
+			ans -= v[x];
+			v[x] = 0;
+			tim[x] = i;
+		}
+
+		if(op == 3){
+			if(last < x){
+				for(int i = last + 1; i<= x; i++){
+					pii p = event[i];
+					//dbg(p.fst);
+					//dbg(p.snd);
+					if(v[p.fst] > 0 && (p.snd > tim[p.fst])){
+						v[p.fst]--;
+						ans--;
+					}
+				}
+				last = x;
+			}
+		}
+
+		cout << ans << endl;
 	}
-
-	cout << ans << endl;
-
 
 
 }

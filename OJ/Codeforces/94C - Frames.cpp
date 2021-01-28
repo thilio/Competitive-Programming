@@ -25,47 +25,40 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
 
 int main(){
 
 	fastio;
+	int n,m,a,b;
+	cin >> n >> m >> a >> b;
 
-	ll n,m;
+	int ra,rb;
+	ra = (a + m -1)/m;
+	rb = (b + m -1)/m;
 
-	cin >> n >> m;
+	int ca,cb;
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+	ca = a%m;
+	cb = b%m;
 
-	ll A[200200],B[200100];
+	if(ca == 0) ca = m;
+	if(cb == 0) cb = m;
 
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
+	if(b == n) b = rb*m;
 
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
-	}
 
-//fr(i,m) dbg(B[i]);
+	int ans = 3;
+	if(a == (ra - 1)*m + 1) ans--;
+	if(b == (rb*m)) ans--;
 
-	ll ans = 0ll;
-	ll pot = 1ll;
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
 
-		pot*=2;
-		pot%= MOD;
-	}
+	if(ra == rb) ans = 1;
+	if(abs(ra-rb) == 1) ans =min(2,ans);
+	if(ca - cb == 0 && (ca == 1 || ca == m)) ans =min(2,ans);
+	if(ca - cb == 1) ans = min(2,ans);
 
 	cout << ans << endl;
-
-
 
 }

@@ -25,45 +25,47 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
 
+
+int n;
+vector<pll> adj[100100];
+ll dist[100100];
+ll vis[100100];
+
+void dfs(int v){
+	vis[v] = 1;
+
+	fr(i,adj[v].size()){
+		pll x = adj[v][i];
+		if(vis[x.fst]) continue;
+		dist[x.fst] = dist[v] + x.snd;
+		dfs(x.fst);
+	}
+}
 int main(){
 
 	fastio;
 
-	ll n,m;
+	cin >> n;
 
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	ll ans = 0;
+	fr(i,n-1){
+		ll u,v,c;
+		cin >> u >> v >> c;
+		adj[u].pb(mp(v,c));
+		adj[v].pb(mp(u,c));
+		ans += 2*c;
 	}
+	dist[1] = 0;
+	dfs(1);
 
-//fr(i,m) dbg(B[i]);
+	ll mx = 0;
+	frr(i,n){
+		if(dist[i] > mx) mx = dist[i];
+	} 
 
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
-	}
-
+	ans -= mx;
 	cout << ans << endl;
 
 

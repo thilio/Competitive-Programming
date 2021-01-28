@@ -25,47 +25,39 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
 
 int main(){
 
 	fastio;
 
-	ll n,m;
+	int n,a,b,k;
 
-	cin >> n >> m;
+	cin >> n >> a >> b >> k;
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+	string s;
+	getline(cin,s);
+	getline(cin,s);
 
-	ll A[200200],B[200100];
+	int ct = 0;
+	vi ans;
 
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
+	ans.clear();
 
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+	fr(i,n){
+		if(s[i] == '0') ct++;
+		if(s[i] == '1') ct = 0;
+
+		if(ct == b){
+			ans.pb(i + 1);
+			ct = 0;
+		} 
 	}
 
-//fr(i,m) dbg(B[i]);
+	k = ans.size() - a + 1;
 
-	ll ans = 0ll;
-	ll pot = 1ll;
+	cout << k << endl;
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
-	}
-
-	cout << ans << endl;
-
-
-
+	fr(i,k) cout << ans[i] << ' ';
+	gnl;    	
 }

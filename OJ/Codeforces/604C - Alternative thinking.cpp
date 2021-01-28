@@ -25,47 +25,40 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
+int n;
+int memo[100100][3][2];
+string s;
+
+int dp(int ind,int turn,int last){
+	if(ind == n) return 0;
+
+	int& pdm = memo[ind][turn][last];
+
+	if(pdm != -1) return pdm;
+
+	pdm = dp(ind+1,turn,last);
+
+	if(turn < 2)
+		pdm = max(pdm,dp(ind,turn+1,last));
+
+	int atual = s[ind] - '0';
+
+	if(turn == 1) atual = (atual + 1)%2;
+
+	if(atual != last) pdm = max(pdm, 1 + dp(ind+1,turn,atual));
+
+	return pdm;
+}
 
 int main(){
 
 	fastio;
+	cin >> n;
+	ms(memo,-1);
+	getline(cin,s);
+	getline(cin,s);
 
-	ll n,m;
-
-	cin >> n >> m;
-
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
-
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
-	}
-
-//fr(i,m) dbg(B[i]);
-
-	ll ans = 0ll;
-	ll pot = 1ll;
-
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
-		}
-
-		pot*=2;
-		pot%= MOD;
-	}
-
-	cout << ans << endl;
-
-
+	cout<<max(dp(0,0,0),dp(0,0,1))<<endl;
 
 }

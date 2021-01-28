@@ -25,47 +25,50 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MOD = 998244353;
+const int MOD = 1e9+7;
 
 int main(){
 
 	fastio;
+	int a,b;
+	int n;
+	cin >> a >> b;
+	cin >> n;
 
-	ll n,m;
+	int g = __gcd(a,b);
 
-	cin >> n >> m;
+	vi div;
 
-	string a,b;
-	getline(cin,a);
-	getline(cin,a);
-	getline(cin,b);
+	for(int i = 1;i*i<=g;i++){
+		if(g%i == 0){
+			div.pb(i);
 
-	ll A[200200],B[200100];
-
-	fr(i,n) A[i] = a[n-i-1] - '0';
-	fr(i,m) B[i] = b[m - i - 1] - '0';
-
-	for(int i = m-2; i >= 0; i--){
-		B[i] += B[i+1];
+			if(g/i != i) div.pb(g/i);
+		}
 	}
 
-//fr(i,m) dbg(B[i]);
+	sort(all(div));
 
-	ll ans = 0ll;
-	ll pot = 1ll;
+	fr(i,n){
+		int l,h;
+		cin >> l >> h;
 
-	fr(i,min(m,n)){
-		if(A[i] == 1){
-			ans += B[i]*pot;
-			ans %= MOD;
+		auto it = upper_bound(all(div),h);
+
+		if(it == div.begin()){
+			cout << -1 << endl;
 		}
 
-		pot*=2;
-		pot%= MOD;
+		else{
+			int p = it - div.begin();
+			p--;
+			if(div[p]< l || div[p] > h){
+				cout << -1 << endl;
+				continue;
+			}
+			cout << div[p] << endl;
+		}
+
 	}
-
-	cout << ans << endl;
-
-
 
 }
