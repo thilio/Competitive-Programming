@@ -26,72 +26,60 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 const int MOD = 1e9+7;
-int n,m;
-int sz[100100],id[100100];
-int f[100100];
-vi are;
+
+int id[200200],sz[200200];
 
 int find(int p){
-	if(id[p] == p) return p;
-	return id[p] = find(id[p]);
+	if(p==id[p]) return p;
+	return (id[p] = find(id[p]));
 }
 
-int merge(int p,int q){
-	p = find(p);
-	q = find(q);
-	if(p == q) return 0;
-	if(sz[p] > sz[q]) swap(p,q);
-	id[p] = q;
-	sz[q] += sz[p];
-	return 1;
+void merge(int a,int b){
+	a = find(a);
+	b = find(b);
+	if(a == b) return;
+	if(sz[a] > sz[b]) swap(a,b);
+	id[a] = b;
+	sz[b] += sz[a];
 }
 
 int main(){
 
 	fastio;
-	cin >> n >> m;
-	pii ed[100100];
-	vii are;
-
-	frr(i,m){
-		cin >> ed[i].fst >> ed[i].snd;
+	int n;
+	cin >> n;
+	frr(i,n){
+		id[i] = i;
+		sz[i] = 1;
 	}
-	int q;
-	cin >> q;
+	int v[200200];
+	frr(i,n) cin >> v[i];
 
-	fr(i,q){
-		int a;
-		cin >> a;
-		are.pb(ed[a]);
-		f[a] = 1;
+	int k;
+	cin >> k;
+	fr(i,k){
+		frr(j,n){
+			int a;
+			cin >> a;
+			merge(a,j);
+		}
 	}
-	reverse(all(are));
+
+	int x;
+	cin >> x;
 
 	frr(i,n){
-		sz[i] = 1;
-		id[i] = i;
-	}
-
-	int ans = n;
-
-	frr(i,m){
-		if(!f[i])
-			ans -= merge(ed[i].fst,ed[i].snd);
-	}
-
-	vi res;
-	res.pb(ans);
-	fr(i,are.size() -1){
-		ans -= merge(are[i].fst,are[i].snd);
-		res.pb(ans);	
+		if(v[i] == x){
+			if(find(i) == find(1)){
+				cout << "YES" <<endl;
+			}
+			else{
+				cout << "NO"<<endl;
+			}
+			return 0;
+		}
 	}
 
 
 
-	reverse(all(res));
-
-	fr(i,res.size())
-		cout <<res[i]<<' ';
-
-	gnl;
 }

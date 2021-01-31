@@ -22,76 +22,77 @@ typedef pair<int,int> pii;
 typedef vector<int> vi;
 typedef vector<pii> vii;
 typedef pair<ll,ll> pll;
+typedef pair<int,pii> pi;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 const int MOD = 1e9+7;
-int n,m;
-int sz[100100],id[100100];
-int f[100100];
-vi are;
+
+int n,m,k;
+int id[300],sz[300];
+vector<pi> ed;
+int t = 1;
 
 int find(int p){
-	if(id[p] == p) return p;
-	return id[p] = find(id[p]);
+	if(p == id[p]) return p;
+	return (id[p] = find(id[p]));
 }
 
-int merge(int p,int q){
+void merge (int p,int q){
 	p = find(p);
 	q = find(q);
-	if(p == q) return 0;
+	if(p==q) return;
 	if(sz[p] > sz[q]) swap(p,q);
 	id[p] = q;
 	sz[q] += sz[p];
-	return 1;
+}
+
+ll kruskal(){
+	ll res = 0;
+	fr(i,m){
+		pi aux = ed[i];
+		int u = aux.snd.snd;
+		int v = aux.snd.fst;
+		if(find(u) == find(v)) continue;
+		merge(u,v);
+		res += aux.fst;
+	}
+
+	return res;
+}
+
+void solve(){
+	cin >> n >> m >> k;
+	frr(i,n){
+		id[i] = i;
+		sz[i] = 1;
+	}
+	int b;
+	cin >> b;
+	fr(i,k-1){
+		int a;
+		cin >> a;
+		merge(a,b);
+	}
+	ed.clear();
+	fr(i,m){
+		pi aux;
+		cin >> aux.snd.snd >> aux.snd.fst >> aux.fst;
+		ed.pb(aux);
+	}
+	sort(all(ed));
+	cout << "Case #"<<t++<<':'<<' ';
+	cout << kruskal()<<endl;
 }
 
 int main(){
 
 	fastio;
-	cin >> n >> m;
-	pii ed[100100];
-	vii are;
+	int T;
+	cin >> T;
 
-	frr(i,m){
-		cin >> ed[i].fst >> ed[i].snd;
-	}
-	int q;
-	cin >> q;
-
-	fr(i,q){
-		int a;
-		cin >> a;
-		are.pb(ed[a]);
-		f[a] = 1;
-	}
-	reverse(all(are));
-
-	frr(i,n){
-		sz[i] = 1;
-		id[i] = i;
+	while(T--){
+		solve();
 	}
 
-	int ans = n;
-
-	frr(i,m){
-		if(!f[i])
-			ans -= merge(ed[i].fst,ed[i].snd);
-	}
-
-	vi res;
-	res.pb(ans);
-	fr(i,are.size() -1){
-		ans -= merge(are[i].fst,are[i].snd);
-		res.pb(ans);	
-	}
-
-
-
-	reverse(all(res));
-
-	fr(i,res.size())
-		cout <<res[i]<<' ';
-
-	gnl;
 }
