@@ -31,6 +31,7 @@ void merge (int p, int q){
 }
 
 void kruskal(){
+	init();
 	sort(edges.begin(), edges.end());
 	for(int i = 0; i < m; i++){
 		pair<int,int> e = edges[i].second;
