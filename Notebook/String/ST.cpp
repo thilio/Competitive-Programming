@@ -14,11 +14,11 @@ string S[NS];
 struct node{
 	int l, r, p;
 	int si, suf;
-	map<char,int> f;
+	map<char,int> f; //CHANGE WHEN USING INTEGERS
 	node(): l(0), r(-1), p(0), si(0) {}
 	node(int L, int R, int P, int S): l(L), r(R), p(P), si(S) {}
 	inline int len() {return r - l + 1;}
-	inline char operator[](int i){return S[si][i + l];} // CHANGE OPERATOR WHEN USING INTEGERS
+	inline char operator[](int i){return S[si][i + l];} //CHANGE WHEN USING INTEGERS
 }t[N];
 
 inline int new_node(int L, int R, int P, int S){
@@ -33,7 +33,7 @@ void clear(){
 }
 
 void build(string &s, int k){
-	s.push_back('!' + k);
+	s.push_back('!' + k); //CHANGE WHEN USING INTEGERS
 	S[k] = s;
 	int n = s.size();
 	int i,cn,cd;
