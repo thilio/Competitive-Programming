@@ -1,4 +1,4 @@
-//If necessary use lcp with sparse table (https://github.com/thilio/Competitive-Programming/blob/master/Notebook/Data%20structures/Sparse_table.cpp )
+//If necessary use lcp with sparse table (https://github.com/thilio/Competitive-Programming/blob/master/Notebook/Data%20structures/Sparse_table.cpp)
 
 #include "bits/stdc++.h"
 using namespace std;
