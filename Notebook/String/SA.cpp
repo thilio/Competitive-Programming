@@ -1,6 +1,4 @@
-//Tested in CodeForces, Kattis, Yosupo;
-//TODO: Test in tight problems : Average common prefix - Timus
-//TODO: Upgrade and test LCP with RMQ 
+//If necessary use lcp with sparse table (https://github.com/thilio/Competitive-Programming/blob/master/Notebook/Data%20structures/Sparse_table.cpp )
 
 #include "bits/stdc++.h"
 using namespace std;
